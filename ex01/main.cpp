@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 16:41:01 by jodone            #+#    #+#             */
-/*   Updated: 2026/04/09 11:24:47 by jodone           ###   ########.fr       */
+/*   Updated: 2026/04/16 18:26:12 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <csignal>
 #include "PhoneBook.class.hpp"
 
 
@@ -21,17 +22,25 @@ int	main(void)
 	std::string command;
 	PhoneBook	phonebook;
 
+	std::signal(SIGQUIT, SIG_IGN);
+	std::signal(SIGINT, SIG_IGN);
 	while (true)
 	{
+		if (std::cin.eof())
+			break ;
 		std::cout << "Enter command (ADD, SEARCH, EXIT)\n";
-		std::getline(std::cin, command);
+		if (!std::getline(std::cin, command))
+			break ;
 		if (command == "ADD")
-		{
-			
+		{	
 			std::cout << "Add a contact..\n";
+			phonebook.Add_contact();
 		}
 		else if (command == "SEARCH")
+		{
 			std::cout << "Search a contact..\n";
+			phonebook.Search();
+		}
 		else if (command == "EXIT" || std::cin.eof())
 		{
 			std::cout << "Exit\n";
